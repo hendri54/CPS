@@ -4,6 +4,7 @@ Import all variables in a dataset file
 that was created by stat/transfer
 
 Break into one file per year
+Replace missing value codes
 
 IN
    csvFn
@@ -37,11 +38,33 @@ assert(ismember('pernum',  loadS.Properties.VariableNames));
 % [fDir, fName, fExt] = fileparts(csvFn);
 
 
+
+
 %% Break into years
 
 for year1 = yearValueV(:)'
    fprintf('Saving year %i \n', year1);
    tbM = loadS(loadS.year == year1, :);
+
+   % Loop over variables in this year
+   varNameV = tbM.Properties.VariableNames;
+   for iv = 1 : length(varNameV)
+      varName = varNameV{iv};
+      vS = vars_cps.var_info(varName, year1);
+      % Do we have variable info?
+      if ~isempty(vS)
+         xV = tbM.(varName);
+         [isValid, outMsg] = vS.is_valid(xV);
+         if isValid
+            % Replace missing value codes
+            tbM.(varName) = vS.process(xV);
+         else
+            % Report errors
+            fprintf('%s, %i:  %s \n',  varName, year1, outMsg);
+         end
+      end
+   end
+   
    var_save_cps(tbM,  outFn,  year1);
 end
 

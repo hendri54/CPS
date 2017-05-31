@@ -52,10 +52,57 @@ methods
    function write_table(vS)
       tbM = vS.stats;
       dirS = param_cps.Directories;
-      diaryS = filesLH.DiaryFile(fullfile(dirS.testDir, [vS.varName, '.txt']),  'new');
+      diaryS = filesLH.DiaryFile(fullfile(dirS.varStatsDir, [vS.varName, '.txt']),  'new');
       fprintf('Stats for [%s] \n\n',  vS.varName);
       disp(tbM);
       diaryS.close;
+   end
+   
+   
+   %% Make a graph with major summary stats
+   function graph_stats(vS)
+      tbM = vS.stats;
+      dirS = param_cps.Directories;
+      
+%       isVisible = true;
+%       figS = FigureLH('visible', isVisible);
+%       figS.fh = figure;
+      
+      % Mean and median
+      fS = FigureLH('visible', false);
+      fS.new;
+%       fS.fh = subplot(2,2,1);
+      hold on;
+      fS.plot_line(tbM.year, tbM.mean, 1);
+      fS.plot_line(tbM.year, tbM.median, 2);
+      hold off;
+      xlabel(['Year  -  ',  vS.varName]);
+      legend({'Mean', 'Median'}, 'location', 'southoutside', 'orientation', 'horizontal');
+      fS.format;
+      fS.save(fullfile(dirS.varStatsDir,  [vS.varName, '_mean']), true);
+
+   
+      % Std deviation
+      fS = FigureLH('visible', false);
+      % fS.fh = subplot(2,2,2);
+      fS.new;
+      hold on;
+      fS.plot_line(tbM.year, tbM.std, 1);
+      hold off;
+      xlabel(['Year  -  ',  vS.varName]);
+      fS.format;
+      fS.save(fullfile(dirS.varStatsDir,  [vS.varName, '_std']), true);      
+      
+
+      % Fraction missing
+      fS = FigureLH('visible', false);
+      fS.new;
+      hold on;
+      fS.plot_line(tbM.year, tbM.fracMiss, 1);
+      hold off;
+      xlabel(['Year  -  ',  vS.varName]);
+      fS.format;
+      fS.save(fullfile(dirS.varStatsDir,  [vS.varName, '_frac_miss']), true);      
    end
    
    
@@ -67,7 +114,7 @@ methods
    IN
    %}
    function tbM = stats(vS)
-      statNameV = {'mean', 'median', 'fracMiss'};
+      statNameV = {'mean', 'median', 'std', 'fracMiss'};
       nStats = length(statNameV);
       ny = length(vS.yearV);
       
@@ -86,6 +133,7 @@ methods
          tbM.year(iy) = year1;
          tbM.mean(iy) = wS.mean;
          tbM.median(iy) = wS.median;
+         tbM.std(iy) = sqrt(wS.var);
          tbM.fracMiss(iy) = wS.fracMiss;
       end
    end

@@ -4,6 +4,8 @@ properties
    baseDir  char
    % Directory with program files
    progDir  char
+   % Summary stats for all variables
+   varStatsDir  char
    % For test results
    testDir  char
    % For raw data files as downloaded
@@ -19,6 +21,7 @@ methods
       dirS.progDir = fullfile(dirS.baseDir, 'prog');
       % For test results
       dirS.testDir = fullfile(dirS.baseDir, 'test_results');
+      dirS.varStatsDir = fullfile(dirS.baseDir, 'var_stats');
       % For raw data files as downloaded
       dirS.asciiDir = fullfile(docuDir, 'data2', 'cps2017');
    end
