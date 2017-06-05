@@ -64,7 +64,8 @@ switch varName
       vS = dataLH.Variable(varName,  'minVal', 0,  'maxVal', 99,  'missValCodeV', NaN);
 
    case 'wkswork2'
-      vS = dataLH.Variable(varName,  'minVal', 0,  'maxVal', 6,  'missValCodeV', 9);
+      varS = vars_cps.WksWork2;
+      vS = varS.var_info;
 
    otherwise
       vS = [];

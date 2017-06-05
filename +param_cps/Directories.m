@@ -10,6 +10,8 @@ properties
    testDir  char
    % For raw data files as downloaded
    asciiDir  char   
+   % Variable info is stored here (such as code/value lists)
+   varInfoDir  char
 end
 
 methods
@@ -24,6 +26,7 @@ methods
       dirS.varStatsDir = fullfile(dirS.baseDir, 'var_stats');
       % For raw data files as downloaded
       dirS.asciiDir = fullfile(docuDir, 'data2', 'cps2017');
+      dirS.varInfoDir = fullfile(dirS.baseDir, 'var_info');
    end
    
    
