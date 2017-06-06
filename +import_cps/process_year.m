@@ -3,6 +3,9 @@ function process_year(year1)
 
 tbM = var_load_cps('data_main',  year1);
 
+% For unknown reasons, this one variable is sometimes (!) 'single'
+assert(isa(tbM.ahrsworkt, 'double'));
+
 dirS = param_cps.Directories;
 diaryS = filesLH.DiaryFile(fullfile(dirS.testDir, sprintf('var_report%i.txt', year1)),  'new');
 
@@ -37,6 +40,10 @@ displayLH.show_string_array(varNameV(~hasInfoV), 80);
 fprintf('\n');
 
 diaryS.close;
+
+% For unknown reasons, this one variable is sometimes (!) 'single'
+assert(isa(tbM.ahrsworkt, 'double'));
+
 
 % Save 
 var_save_cps(tbM, 'data_main', year1);

@@ -38,6 +38,12 @@ assert(ismember('pernum',  loadS.Properties.VariableNames));
 % [fDir, fName, fExt] = fileparts(csvFn);
 
 
+%% Treat variable errors
+
+if ismember('wtsupp',  loadS.Properties.VariableNames)
+   % There are "valid negative values" according to IPUMS
+   loadS.wtsupp = max(0, loadS.wtsupp);
+end
 
 
 %% Break into years
@@ -64,6 +70,9 @@ for year1 = yearValueV(:)'
          end
       end
    end
+   
+   % For unknown reasons, this one variable is sometimes (!) 'single'
+   assert(isa(tbM.ahrsworkt, 'double'));
    
    var_save_cps(tbM,  outFn,  year1);
 end

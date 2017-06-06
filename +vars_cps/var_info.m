@@ -24,8 +24,14 @@ switch varName
       end
       vS = dataLH.Variable('age',  'minVal', 0,  'maxVal', 99,  'topCodeV', topCodeV);
       
+   case 'ahrsworkt'
+      vS = dataLH.Variable(varName, 'minVal', 0,  'maxVal', 7 * 20,  'missValCodeV', 999);
+      
    case 'classwkr'
       vS = dataLH.Variable(varName,  'minVal', 0,  'maxVal', 29,  'missValCodeV', [0, 99]);
+      
+   case 'earnwt'
+      vS = dataLH.Variable(varName,  'minVal', 0,  'maxVal', 1e6);
 
    case 'educ'
       vS = dataLH.Variable(varName,  'minVal', 0,  'maxVal', 125,  'missValCodeV', [0, 1, 999]);
@@ -66,6 +72,10 @@ switch varName
    case 'wkswork2'
       varS = vars_cps.WksWork2;
       vS = varS.var_info;
+
+   case 'wtsupp'
+      % Until 1976 there are "valid negative values" (according to IPUMS)
+      vS = dataLH.Variable(varName,  'minVal', 0,  'maxVal', 1e6);
 
    otherwise
       vS = [];

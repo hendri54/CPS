@@ -11,6 +11,6 @@ if ~exist(fDir, 'dir')
 end
 
 save(fn, 'saveS');
-fprintf('Saved file [%s] \n',  varNameStr);
+fprintf('Saved file [%s] [%i] \n',  varNameStr, year1);
 
 end

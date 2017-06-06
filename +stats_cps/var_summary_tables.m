@@ -9,6 +9,8 @@ end
 
 if isempty(varNameInV)
    varNameV = vars_cps.var_list;
+elseif isa(varNameInV, 'char')
+   varNameV = {varNameInV};
 else
    varNameV = varNameInV;
 end
